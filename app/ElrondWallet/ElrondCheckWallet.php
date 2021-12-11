@@ -104,7 +104,7 @@ class ElrondCheckWallet
              * USDC LP
              */
             if($name == 'EGLDUSDCLPStaked'){
-                $usdcAmountStaked = $balance18s;
+                $usdcAmountStaked = $balance18s/15;
             }
             $lpAmountTotalUSDC = $lpAmountTotalUSDC + $usdcAmountStaked;
 
@@ -113,7 +113,6 @@ class ElrondCheckWallet
         /**
          * CALCULATE AMOUNT OF LP
          */
-
         $totalUSDperMEX = ($lpAmountTotal/2)*$priceEgldMexLP;
         $totalUSDperMEXLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
         $totalUSDperEGLD = ($lpAmountTotal/2)*$priceEgldMexLP;
