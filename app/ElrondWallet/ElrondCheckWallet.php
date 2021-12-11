@@ -96,7 +96,7 @@ class ElrondCheckWallet
              * MEX STAKED
              */
             if($name == 'MEXStaked'){
-                $mexAmountStaked = $balance18s;
+                $mexAmountStaked = $balance18s/12;
             }
             $mexAmountStakedTotal = $mexAmountStaked + $mexAmountStaked;
 
@@ -117,14 +117,12 @@ class ElrondCheckWallet
         $totalUSDperEGLD = ($lpAmountTotal/2)*$priceEgldMexLP;
         $totalUSDperEGLDLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
 
-        /*
-        $totalUSDperUSDCfromUSDCLP = ($lpAmountTotalUSDC/2)*$priceUsdcEgldLP;
-        $totalUSDperEGLDfromUSDCLP = ($lpAmountTotalUSDC/2)*$priceUsdcEgldLP;
-        */
 
         $amountEGLD = ($totalUSDperEGLD+$totalUSDperEGLDLocked)/$egldPrice;
+
         $amountMex = ($totalUSDperMEX/$mexPrice)+$mexAmountStakedTotal;
         $amountMexLocked = $totalUSDperMEXLocked/$mexPrice;
+
         $amountEGLDEquivalentMex = $totalUSDperMEX/$egldPrice;
         $amountEGLDEquivalentLKMex = $totalUSDperMEXLocked/$egldPrice;
 
