@@ -90,11 +90,7 @@ class ElrondCheckWallet
             /**
              * MEX STAKED
              */
-
-            /**
-             * MEX STAKED
-             */
-            if(str_contains($name, 'MEXStaked')){
+            if($name == 'MEXStaked'){
                 $mexAmountStaked = $balance18s/12;
             }
             $mexAmountStakedTotal = $mexAmountStaked + $mexAmountStaked;
