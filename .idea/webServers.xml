@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="49d8c0a7-14d9-4a5f-8255-617f28369c47" name="FiglizzoStaging" url="http://FiglizzoStaging.it">
+        <fileTransfer accessType="SFTP" host="174.138.12.59" port="22" sshConfigId="0519daa8-6266-4186-8f5f-c3d583c64ffb" sshConfig="stagingfoglizzo@174.138.12.59:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
