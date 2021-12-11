@@ -73,6 +73,16 @@
                     Plist
                     <h2>EGLD Address resume</h2>
                 </div>
+
+                <form action="/foo/bar" method="GET">
+                    @method('GET')
+                    <div class="form-group">
+                        <label for="elrondAddress">Elrond Address</label>
+                        <input type="text" class="form-control" id="elrondAddress" placeholder="Text">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
                 <div class="links">
                 </div>
             </div>

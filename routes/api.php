@@ -19,4 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/egldCheck/{address}',function ($address){
+    $egldCheck = new \App\ElrondWallet\ElrondCheckWallet($address);
+    $informations = $egldCheck->getAllInformationsByAddress();
+    return $informations;
+});
 
