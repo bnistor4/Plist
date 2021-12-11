@@ -102,12 +102,11 @@ class ElrondCheckWallet
 
             /**
              * USDC LP
-             */
             if($name == 'EGLDUSDCLPStaked'){
                 $usdcAmountStaked = $balance18s/15;
             }
             $lpAmountTotalUSDC = $lpAmountTotalUSDC + $usdcAmountStaked;
-
+             */
         }
 
         /**
@@ -130,17 +129,14 @@ class ElrondCheckWallet
 
 
 
-        $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex
-                        +($totalUSDperUSDCfromUSDCLP/$egldPrice)
-                        +($totalUSDperEGLDfromUSDCLP/$egldPrice);
+        $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex;
 
         $arrayWithInfo = [
             'amountEgld' => $amountEGLD,
             'amountMex' => $amountMex,
             'amountLKMex' => $amountMexLocked,
-            'amountUSDC' => $totalUSDperUSDCfromUSDCLP,
-            'amountEgldFromUsdc' => $totalUSDperEGLDfromUSDCLP,
             'amountEquivalentInEgld' => $totalALLEGLD,
+            'ALERT'=>'USDC LP NOT INCLUDED'
         ];
 
         return $arrayWithInfo;

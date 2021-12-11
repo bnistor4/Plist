@@ -50,7 +50,6 @@ class checkWallet extends Command
 
         $jsonResponse = $this->getResponseJson("https://api.elrond.com/accounts/$addressToCheck/nfts?type=MetaESDT");
 
-        dd($jsonResponse);
 
         $r = (new Client())->request('POST', 'https://graph.maiar.exchange/graphql', [
             'body' => '{"query":"query { pairs { firstToken { name }, firstTokenPriceUSD, secondToken { name }, secondTokenPriceUSD, liquidityPoolToken { name, supply, decimals },liquidityPoolTokenPriceUSD }}"}',
@@ -60,7 +59,6 @@ class checkWallet extends Command
         ]);
 
         $responseToParse =json_decode($r->getBody())->data->pairs;
-
 
         $priceUsdcEgldLP = $responseToParse[1]->liquidityPoolTokenPriceUSD;
 
@@ -72,11 +70,13 @@ class checkWallet extends Command
         $mexAmountTotalLocked = 0;
         $lpAmountTotalLocked = 0;
         $lpAmountTotal = 0;
+        $lpAmountTotalUSDC = 0;
 
         foreach ($jsonResponse as $objectBlock){
             $lpAmount = 0;
             $mexAmountLocked = 0;
             $lpAmountLocked = 0;
+            $usdcAmountStaked = 0;
 
             $balance = $objectBlock->balance;
             $decimals = $objectBlock->decimals;
@@ -114,7 +114,19 @@ class checkWallet extends Command
             }
             $lpAmountTotal = $lpAmountTotal + $lpAmount;
 
+
+            /**
+             * USDC LP
+             */
+            if($name == 'EGLDUSDCLPStaked'){
+                $usdcAmountStaked = $balance18s/12;
+            }
+            $lpAmountTotalUSDC = $lpAmountTotalUSDC + $usdcAmountStaked;
+
+
         }
+
+        dd($lpAmountTotalUSDC * $priceUsdcEgldLP);
 
         $this->line("LPUnlocked: $lpAmountTotal");
         $this->line("LPLocked: $lpAmountTotalLocked");
