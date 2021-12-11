@@ -44,17 +44,22 @@ class ElrondCheckWallet
 
         $responseToParse =json_decode($r->getBody())->data->pairs;
         $priceEgldMexLP = $responseToParse[0]->liquidityPoolTokenPriceUSD;
+        $priceUsdcEgldLP = $responseToParse[1]->liquidityPoolTokenPriceUSD;
 
         $mexAmountTotalLocked = 0;
         $lpAmountTotalLocked = 0;
         $lpAmountTotal = 0;
         $mexAmountStakedTotal = 0;
+        $lpAmountTotalUSDC = 0;
+
+
         foreach ($jsonResponse as $objectBlock){
 
             $lpAmount = 0;
             $mexAmountLocked = 0;
             $lpAmountLocked = 0;
             $mexAmountStaked = 0;
+            $usdcAmountStaked = 0;
 
             $balance = $objectBlock->balance;
             $decimals = $objectBlock->decimals;
@@ -95,6 +100,14 @@ class ElrondCheckWallet
             }
             $mexAmountStakedTotal = $mexAmountStaked + $mexAmountStaked;
 
+            /**
+             * USDC LP
+             */
+            if($name == 'EGLDUSDCLPStaked'){
+                $usdcAmountStaked = $balance18s;
+            }
+            $lpAmountTotalUSDC = $lpAmountTotalUSDC + $usdcAmountStaked;
+
         }
 
         /**
@@ -106,6 +119,9 @@ class ElrondCheckWallet
         $totalUSDperEGLD = ($lpAmountTotal/2)*$priceEgldMexLP;
         $totalUSDperEGLDLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
 
+        $totalUSDperUSDCfromUSDCLP = ($lpAmountTotalUSDC/2)*$priceUsdcEgldLP;
+        $totalUSDperEGLDfromUSDCLP = ($lpAmountTotalUSDC/2)*$priceUsdcEgldLP;
+
 
         $amountEGLD = ($totalUSDperEGLD+$totalUSDperEGLDLocked)/$egldPrice;
         $amountMex = ($totalUSDperMEX/$mexPrice)+$mexAmountStakedTotal;
@@ -115,12 +131,16 @@ class ElrondCheckWallet
 
 
 
-        $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex;
+        $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex
+                        +($totalUSDperUSDCfromUSDCLP/$egldPrice)
+                        +($totalUSDperEGLDfromUSDCLP/$egldPrice);
 
         $arrayWithInfo = [
             'amountEgld' => $amountEGLD,
             'amountMex' => $amountMex,
             'amountLKMex' => $amountMexLocked,
+            'amountUSDC' => $totalUSDperUSDCfromUSDCLP,
+            'amountEgldFromUsdc' => $totalUSDperEGLDfromUSDCLP,
             'amountEquivalentInEgld' => $totalALLEGLD,
         ];
 
