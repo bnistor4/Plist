@@ -49,7 +49,7 @@ class checkWallet extends Command
         $mexPrice = json_decode($requestMEXPRICE->getBody())->price;
 
         $jsonResponse = $this->getResponseJson("https://api.elrond.com/accounts/$addressToCheck/nfts?type=MetaESDT");
-
+        dd($jsonResponse);
 
         $r = (new Client())->request('POST', 'https://graph.maiar.exchange/graphql', [
             'body' => '{"query":"query { pairs { firstToken { name }, firstTokenPriceUSD, secondToken { name }, secondTokenPriceUSD, liquidityPoolToken { name, supply, decimals },liquidityPoolTokenPriceUSD }}"}',
