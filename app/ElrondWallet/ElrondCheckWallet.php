@@ -111,14 +111,13 @@ class ElrondCheckWallet
         $totalUSDperEGLDLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
 
         $amountEGLD = ($totalUSDperEGLD+$totalUSDperEGLDLocked)/$egldPrice;
-
         $amountMex = ($totalUSDperMEX/$mexPrice)+$mexAmountStakedTotal;
         $amountMexLocked = $totalUSDperMEXLocked/$mexPrice;
 
-        $amountEGLDEquivalentMex = $totalUSDperMEX/$egldPrice;
-        $amountEGLDEquivalentLKMex = $totalUSDperMEXLocked/$egldPrice;
+        $amountEGLDEquivalentMex = (($amountMex*$mexPrice)/$egldPrice);
+        $amountEGLDEquivalentLKMex = (($amountMexLocked*$mexPrice)/$egldPrice);
 
-        $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex+(($amountMex*$mexPrice)/$egldPrice);
+        $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex;
 
         $arrayWithInfo = [
             'amountEgld' => $amountEGLD,
