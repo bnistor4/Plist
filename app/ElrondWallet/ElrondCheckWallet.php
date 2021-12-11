@@ -48,11 +48,13 @@ class ElrondCheckWallet
         $mexAmountTotalLocked = 0;
         $lpAmountTotalLocked = 0;
         $lpAmountTotal = 0;
-
+        $mexAmountStakedTotal = 0;
         foreach ($jsonResponse as $objectBlock){
+
             $lpAmount = 0;
             $mexAmountLocked = 0;
             $lpAmountLocked = 0;
+            $mexAmountStaked = 0;
 
             $balance = $objectBlock->balance;
             $decimals = $objectBlock->decimals;
@@ -85,13 +87,19 @@ class ElrondCheckWallet
             }
             $lpAmountTotal = $lpAmountTotal + $lpAmount;
 
-        }
+            /**
+             * MEX STAKED
+             */
 
-        /*
-        $this->line("LPUnlocked: $lpAmountTotal");
-        $this->line("LPLocked: $lpAmountTotalLocked");
-        $this->line("MEXLocked: $mexAmountTotalLocked");
-        */
+            /**
+             * MEX STAKED
+             */
+            if(str_contains($name, 'MEXStaked')){
+                $mexAmountStaked = $balance18s/12;
+            }
+            $mexAmountStakedTotal = $mexAmountStaked + $mexAmountStaked;
+
+        }
 
         /**
          * CALCULATE AMOUNT OF LP
@@ -102,31 +110,14 @@ class ElrondCheckWallet
         $totalUSDperEGLD = ($lpAmountTotal/2)*$priceEgldMexLP;
         $totalUSDperEGLDLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
 
-        /*
-        $this->line("---------------------------------");
-        $this->line("MEX-USD: $totalUSDperMEX");
-        $this->line("EGLD-USD: $totalUSDperEGLD");
-        $this->line("---------------------------------");
-        $this->line("MEXLocked-USD: $totalUSDperMEXLocked");
-        $this->line("EGLDLocked-USD: $totalUSDperEGLDLocked");
 
-        $this->alert($totalUSDperEGLD+$totalUSDperMEX+$totalUSDperEGLDLocked+$totalUSDperMEXLocked);
-        */
         $amountEGLD = ($totalUSDperEGLD+$totalUSDperEGLDLocked)/$egldPrice;
-        $amountMex = $totalUSDperMEX/$mexPrice;
+        $amountMex = ($totalUSDperMEX/$mexPrice)+$mexAmountStakedTotal;
         $amountMexLocked = $totalUSDperMEXLocked/$mexPrice;
         $amountEGLDEquivalentMex = $totalUSDperMEX/$egldPrice;
         $amountEGLDEquivalentLKMex = $totalUSDperMEXLocked/$egldPrice;
 
-        /*
-        $this->line("---------------------------------");
 
-        $this->line("EGLD: $amountEGLD");
-        $this->line("MEX: $amountMex - equivalent of $amountEGLDEquivalentMex EGLD");
-        $this->line("LKMEX: $amountMexLocked - equivalent of $amountEGLDEquivalentLKMex EGLD");
-
-        $this->error("TOTAL EGLD OF ACCOUNT = $totalALLEGLD");
-        */
 
         $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex;
 
