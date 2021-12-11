@@ -71,7 +71,7 @@ class ElrondCheckWallet
             /**
              * LOCKED LP
              */
-            if(str_contains($name, 'LockedLPStaked')){
+            if($name == 'LockedLPStaked'){
                 //check if value si greater than 100000
                 if($balance18s > 100000){
                     //case MEX
@@ -99,24 +99,16 @@ class ElrondCheckWallet
                 $mexAmountStaked = $balance18s/12;
             }
             $mexAmountStakedTotal = $mexAmountStaked + $mexAmountStaked;
-
-            /**
-             * USDC LP
-            if($name == 'EGLDUSDCLPStaked'){
-                $usdcAmountStaked = $balance18s/15;
-            }
-            $lpAmountTotalUSDC = $lpAmountTotalUSDC + $usdcAmountStaked;
-             */
         }
 
         /**
          * CALCULATE AMOUNT OF LP
          */
         $totalUSDperMEX = ($lpAmountTotal/2)*$priceEgldMexLP;
-        $totalUSDperMEXLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
         $totalUSDperEGLD = ($lpAmountTotal/2)*$priceEgldMexLP;
-        $totalUSDperEGLDLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
 
+        $totalUSDperMEXLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
+        $totalUSDperEGLDLocked = ($lpAmountTotalLocked/2)*$priceEgldMexLP;
 
         $amountEGLD = ($totalUSDperEGLD+$totalUSDperEGLDLocked)/$egldPrice;
 
@@ -126,7 +118,7 @@ class ElrondCheckWallet
         $amountEGLDEquivalentMex = $totalUSDperMEX/$egldPrice;
         $amountEGLDEquivalentLKMex = $totalUSDperMEXLocked/$egldPrice;
 
-        $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex;
+        $totalALLEGLD = $amountEGLD+$amountEGLDEquivalentMex+$amountEGLDEquivalentLKMex+(($amountMex*$mexPrice)/$egldPrice);
 
         $arrayWithInfo = [
             'amountEgld' => $amountEGLD,
